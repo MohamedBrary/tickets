@@ -1,42 +1,43 @@
 !!!
 %html
   %head
-    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-    %meta{:charset => "utf-8"}/
-    %meta{:content => "IE=edge", "http-equiv" => "X-UA-Compatible"}/
-    %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}/
-    %meta{:content => "", :name => "description"}/
-    %meta{:content => "", :name => "author"}/
-    %title Support Tickets System
+    %meta{charset: "utf-8"}
+    %meta{content: "IE=edge", "http-equiv" => "X-UA-Compatible"}
+    %meta{content: "width=device-width, initial-scale=1", name: "viewport"}
+    %meta{content: "", name: "description"}
+    %meta{content: "", name: "author"}
+    %title Support Ticket System
+
     / HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
     /[if lt IE 9]
-      <haml_loud> javascript_include_tag &quot;https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js&quot;, &quot;https://oss.maxcdn.com/respond/1.4.2/respond.min.js&quot; </haml_loud>
+      = javascript_include_tag "https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js", "https://oss.maxcdn.com/respond/1.4.2/respond.min.js"
+
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   %body
-    %nav.navbar.navbar-inverse.navbar-fixed-top{:role => "navigation"}
+    %nav.navbar.navbar-inverse.navbar-fixed-top{role: "navigation"}
       .container
         .navbar-header
-          %button.navbar-toggle.collapsed{"aria-controls" => "navbar", "aria-expanded" => "false", "data-target" => "#navbar", "data-toggle" => "collapse", :type => "button"}
+          %button.navbar-toggle.collapsed{type: "button", data: {toggle: "collapse", target: "#navbar"}, aria: {expanded: "false", controls: "navbar"} }
             %span.sr-only Toggle navigation
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
-          = link_to "Project name", "#", class: "navbar-brand"
+          = link_to "Support Ticket System", home_index_path, class: "navbar-brand"
         #navbar.collapse.navbar-collapse
           %ul.nav.navbar-nav
             %li.active
-              %a{:href => "#"} Home
+              %a{href: home_index_path} Home
             %li
-              %a{:href => "#about"} About
+              %a{href: users_path} Users
             %li
-              %a{:href => "#contact"} Contact
+              %a{href: "#contact"} Contact
     .container
       - flash.each do |name, msg|
-        = content_tag :div, class: "alert alert-#{ name == :error ? "danger" : "success" } alert-dismissable", role: "alert" do
-          %button.close{"data-dismiss" => "alert", :type => "button"}
-            %span{"aria-hidden" => "true"} ×
+        = content_tag :div, class: "alert alert-#{name == :error ? "danger" : "success" } alert-dismissable", role: "alert" do
+          %button.close{type: "button", data: {dismiss: "alert"} }
+            %span{aria: {hidden: "true"} } &times;
             %span.sr-only Close
           = msg
       = yield

@@ -4,3 +4,12 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 end
+
+class Customer < User
+end
+
+class Agent < User
+end
+
+class Admin < User
+end
