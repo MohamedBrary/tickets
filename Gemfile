@@ -34,8 +34,10 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'devise'
 
+# Adding bootstrap and haml support
 gem 'bootstrap-generators', git: 'git://github.com/decioferreira/bootstrap-generators.git'
-
+gem 'devise-bootstrap-views'
+gem "haml-rails", "~> 0.9"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
