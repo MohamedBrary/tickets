@@ -1,17 +1,15 @@
-= form_for(user) do |f|
-  - if user.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(user.errors.count, "error")
-        prohibited this user from being saved:
+= form_for @user, html: { class: "form-horizontal", role: "form" } do |f|
+  -if @user.errors.any?
+    .alert.alert-danger.alert-dismissable{role: "alert"}
+      %button.close{type: "button", data: {dismiss: "alert"} }
+        %span{aria: {hidden: "true"} } &times;
+        %span.sr-only Close
+      %h4= "#{pluralize(@user.errors.count, "error")} prohibited this user from being saved:"
+
       %ul
-        - user.errors.full_messages.each do |message|
-          %li= message
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :type
-    = f.text_field :type
-  .actions
-    = f.submit
+        - @user.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    .col-sm-offset-2.col-sm-10
+      = f.submit class: 'btn btn-primary'
