@@ -13,6 +13,7 @@
         %th Customer
         %th Agent
         %th Status
+        %th Resolution date
         %th
         %th
         %th
@@ -25,6 +26,7 @@
           %td= ticket.customer
           %td= ticket.agent
           %td= ticket.status
+          %td= ticket.resolution_date
           %td= link_to 'Show', ticket
           %td= link_to 'Edit', edit_ticket_path(ticket)
           %td= link_to 'Destroy', ticket, data: { confirm: 'Are you sure?' }, method: :delete
