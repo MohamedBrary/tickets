@@ -27,12 +27,15 @@
           = link_to "Support Ticket System", home_index_path, class: "navbar-brand"
         #navbar.collapse.navbar-collapse
           %ul.nav.navbar-nav
-            %li.active
+            / .active
+            %li
               %a{href: home_index_path} Home
             %li
               %a{href: users_path} Users
             %li
-              %a{href: "#contact"} Contact
+              %a{href: tickets_path} Tickets
+          %ul.nav.navbar-nav.navbar-right
+            = render 'devise/shared/login_links'
     .container
       - flash.each do |name, msg|
         = content_tag :div, class: "alert alert-#{name == :error ? "danger" : "success" } alert-dismissable", role: "alert" do

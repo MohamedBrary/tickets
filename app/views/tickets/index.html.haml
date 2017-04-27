@@ -1,0 +1,30 @@
+.page-header
+  = link_to new_ticket_path, class: 'btn btn-primary' do
+    %span.glyphicon.glyphicon-plus
+    New Ticket
+  %h1 Listing tickets
+
+.table-responsive
+  %table.table.table-striped.table-bordered.table-hover
+    %thead
+      %tr
+        %th Desc
+        %th Report
+        %th Customer
+        %th Agent
+        %th Status
+        %th
+        %th
+        %th
+
+    %tbody
+      - @tickets.each do |ticket|
+        %tr
+          %td= ticket.desc
+          %td= ticket.report
+          %td= ticket.customer
+          %td= ticket.agent
+          %td= ticket.status
+          %td= link_to 'Show', ticket
+          %td= link_to 'Edit', edit_ticket_path(ticket)
+          %td= link_to 'Destroy', ticket, data: { confirm: 'Are you sure?' }, method: :delete

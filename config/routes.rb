@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :tickets
   devise_for :users
   resources :users
   resources :admins, controller: 'users', type: 'Admin' 

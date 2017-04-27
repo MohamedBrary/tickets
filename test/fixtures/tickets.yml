@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  desc: MyText
+  report: MyText
+  customer: one
+  agent: one
+  status: 1
+
+two:
+  desc: MyText
+  report: MyText
+  customer: two
+  agent: two
+  status: 1
