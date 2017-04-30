@@ -1,10 +1,11 @@
 class TicketsController < ApplicationController
-  before_action :set_ticket, only: [:show, :edit, :update, :destroy]
+  before_action :set_ticket, only: [:show, :edit, :update, :destroy, :assign, :resolve]
+  before_action :authorize_ticket
 
   # GET /tickets
   # GET /tickets.json
   def index
-    @tickets = Ticket.all
+    @tickets = policy_scope(Ticket)
   end
 
   # GET /tickets/1
@@ -26,6 +27,7 @@ class TicketsController < ApplicationController
   def create
     @ticket = Ticket.new(ticket_params)
 
+    # only customers are allowed to create tickets
     @ticket.customer = current_user
 
     respond_to do |format|
@@ -92,11 +94,19 @@ class TicketsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_ticket
-      @ticket = Ticket.find(params[:id])
+      # making sure that current user has access to the ticket
+      @ticket = policy_scope(Ticket).find(params[:id])
+    end
+
+    def authorize_ticket
+      # authorize the set ticket, or the Class ticket in case the ticket isn't initialized
+      authorize (@ticket || Ticket)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def ticket_params
-      params.require(:ticket).permit(:desc, :report, :customer_id, :agent_id, :status, :resolution_date)
+      # using pundit helper for authorized ticket attributes
+      params.require(:ticket).permit(policy(@ticket).permitted_attributes)
+      # params.require(:ticket).permit(:desc, :report, :customer_id, :agent_id, :status, :resolution_date)
     end
 end

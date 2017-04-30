@@ -23,6 +23,10 @@ class TicketPolicy < ApplicationPolicy
   	user.customer?
   end
 
+  def update?
+  	user.customer?
+  end
+
   # only admin or the customer who owns the ticket, can destroy it
   def destroy?
   	user.admin? || (user.customer? && ticket.customer == user)
@@ -38,6 +42,14 @@ class TicketPolicy < ApplicationPolicy
   # TODO discuss with client this rule, and discuss creating supervisor role, and if more complicated ticket flow is needed
   def resolve?
   	user.agent? && ticket.agent == user && ticket.assigned?
+  end
+
+  def permitted_attributes
+    if user.customer?
+      [:desc]
+    elsif user.agent
+      [:report]
+    end
   end
 
 end

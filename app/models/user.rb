@@ -6,10 +6,22 @@ class User < ApplicationRecord
 
   validates :name ,:presence => true
   validates :type ,:presence => true
+
+  def admin?
+  	is_a? Admin
+  end
+
+  def customer?
+  	is_a? Customer
+  end
+
+  def agent?
+  	is_a? Agent
+  end
 end
 
 class Customer < User
-	has_many :tickets	
+	has_many :tickets, dependent: :destroy	
 end
 
 class Agent < User
