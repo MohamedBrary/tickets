@@ -33,7 +33,7 @@
   .form-group
     = f.label :resolution_date, class: 'col-sm-2 control-label'
     .col-sm-10
-      = f.time_select :resolution_date, class: 'form-control'
+      = f.datetime_select :resolution_date, class: 'form-control'
   .form-group
     .col-sm-offset-2.col-sm-10
       = f.submit class: 'btn btn-primary'

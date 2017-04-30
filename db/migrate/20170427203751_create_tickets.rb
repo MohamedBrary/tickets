@@ -3,10 +3,10 @@ class CreateTickets < ActiveRecord::Migration[5.0]
     create_table :tickets do |t|
       t.text :desc
       t.text :report
-      t.references :customer, foreign_key: true
-      t.references :agent, foreign_key: true
+      t.references :customer, index: true, foreign_key: { to_table: :users }
+      t.references :agent, index: true, foreign_key: { to_table: :users }
       t.integer :status
-      t.time :resolution_date
+      t.datetime :resolution_date
 
       t.timestamps
     end
