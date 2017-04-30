@@ -17,10 +17,10 @@ ActiveRecord::Schema.define(version: 20170427203751) do
     t.text     "report",          limit: 65535
     t.integer  "customer_id"
     t.integer  "agent_id"
-    t.integer  "status"
+    t.integer  "status",                        default: 0
     t.datetime "resolution_date"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
     t.index ["agent_id"], name: "index_tickets_on_agent_id", using: :btree
     t.index ["customer_id"], name: "index_tickets_on_customer_id", using: :btree
   end

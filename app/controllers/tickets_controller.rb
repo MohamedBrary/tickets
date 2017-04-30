@@ -26,6 +26,8 @@ class TicketsController < ApplicationController
   def create
     @ticket = Ticket.new(ticket_params)
 
+    @ticket.customer = current_user
+
     respond_to do |format|
       if @ticket.save
         format.html { redirect_to @ticket, notice: 'Ticket was successfully created.' }
@@ -40,6 +42,22 @@ class TicketsController < ApplicationController
   # PATCH/PUT /tickets/1
   # PATCH/PUT /tickets/1.json
   def update
+    respond_to do |format|
+      if @ticket.update(ticket_params)
+        format.html { redirect_to @ticket, notice: 'Ticket was successfully updated.' }
+        format.json { render :show, status: :ok, location: @ticket }
+      else
+        format.html { render :edit }
+        format.json { render json: @ticket.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def assign
+    # if an agent_id isn't sent as a param, then the current user is assigning the ticket to himself
+    ticket_params[:agent_id] ||= current_user.id
+    ticket_params[:status] = Ticket.statuses[:assigned]
+
     respond_to do |format|
       if @ticket.update(ticket_params)
         format.html { redirect_to @ticket, notice: 'Ticket was successfully updated.' }
