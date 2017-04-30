@@ -53,14 +53,24 @@ class TicketsController < ApplicationController
     end
   end
 
+  # POST /tickets/1/assign
   def assign
-    # if an agent_id isn't sent as a param, then the current user is assigning the ticket to himself
-    ticket_params[:agent_id] ||= current_user.id
-    ticket_params[:status] = Ticket.statuses[:assigned]
-
     respond_to do |format|
-      if @ticket.update(ticket_params)
-        format.html { redirect_to @ticket, notice: 'Ticket was successfully updated.' }
+      if @ticket.assign(current_user.id)
+        format.html { redirect_to @ticket, notice: "Ticket was successfully assigned to #{current_user.name} ." }
+        format.json { render :show, status: :ok, location: @ticket }
+      else
+        format.html { render :edit }
+        format.json { render json: @ticket.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # POST /tickets/1/resolve
+  def resolve
+    respond_to do |format|
+      if @ticket.resolve(ticket_params[:report])
+        format.html { redirect_to @ticket, notice: "Ticket was successfully resolved by #{current_user.name} ." }
         format.json { render :show, status: :ok, location: @ticket }
       else
         format.html { render :edit }

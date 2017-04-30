@@ -12,4 +12,15 @@ class Ticket < ApplicationRecord
   validates :agent, presence: true, if: :assigned? # each ticket should belongs to an agent, if it is assigned
   validates :report, presence: true, if: :resolved? # each ticket should have a report, if it is resolved
   validates :resolution_date, presence: true, if: :resolved? # each ticket should have a resolution_date, if it is resolved
+
+  def assign agent_id
+  	self.agent_id = agent_id
+  	self.assigned!
+  end
+
+  def resolve report
+  	self.report = report
+  	self.resolution_date = DateTime.now
+  	self.resolved!
+  end
 end

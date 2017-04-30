@@ -33,6 +33,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'bcrypt', '~> 3.1.7'
 
 gem 'devise'
+gem "pundit"
 
 # Adding bootstrap and haml support
 gem 'bootstrap-generators', git: 'git://github.com/decioferreira/bootstrap-generators.git'
