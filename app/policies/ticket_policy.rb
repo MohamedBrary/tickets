@@ -17,6 +17,10 @@ class TicketPolicy < ApplicationPolicy
 
   end
 
+  def index?
+  	true
+  end
+
   # only customer can create tickets
   # TODO discuss with client this rule, not allowing Admin to create tickets, for the integerity of the system
   def create?
@@ -29,19 +33,23 @@ class TicketPolicy < ApplicationPolicy
 
   # only admin or the customer who owns the ticket, can destroy it
   def destroy?
-  	user.admin? || (user.customer? && ticket.customer == user)
+  	user.admin? || (user.customer? && record.customer == user)
   end
 
   # only agent can assign tickets, and only when it is pending
   # TODO discuss with client this rule, and discuss creating supervisor role
   def assign?
-  	user.agent? && ticket.pending?
+  	user.agent? && record.pending?
   end
 
   # only ticket's agent can resolve the ticket, and only when it is assigned
   # TODO discuss with client this rule, and discuss creating supervisor role, and if more complicated ticket flow is needed
   def resolve?
-  	user.agent? && ticket.agent == user && ticket.assigned?
+  	user.agent? && record.agent == user && record.assigned?
+  end
+
+  def scope
+    Pundit.policy_scope!(user, Ticket)
   end
 
   def permitted_attributes

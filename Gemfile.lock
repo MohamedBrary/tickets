@@ -57,6 +57,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
+    colorize (0.8.1)
     concurrent-ruby (1.0.5)
     devise (4.2.1)
       bcrypt (~> 3.0)
@@ -67,6 +68,8 @@ GEM
     devise-bootstrap-views (0.0.11)
     erubis (2.7.0)
     execjs (2.7.0)
+    faker (1.7.3)
+      i18n (~> 0.5)
     ffi (1.9.18)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
@@ -110,6 +113,7 @@ GEM
     nokogiri (1.7.1)
       mini_portile2 (~> 2.1.0)
     orm_adapter (0.5.0)
+    populator (1.0.0)
     puma (3.8.2)
     pundit (1.1.0)
       activesupport (>= 3.0.0)
@@ -195,13 +199,16 @@ DEPENDENCIES
   bootstrap-generators!
   byebug
   coffee-rails (~> 4.2)
+  colorize
   devise
   devise-bootstrap-views
+  faker
   haml-rails (~> 0.9)
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)
   mysql2 (>= 0.3.18, < 0.5)
+  populator
   puma (~> 3.0)
   pundit
   rails (~> 5.0.2)

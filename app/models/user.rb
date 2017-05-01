@@ -2,10 +2,21 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable,
+         :confirmable
 
+  #---- Validations  
   validates :name ,:presence => true
   validates :type ,:presence => true
+
+  #---- Auth Logic
+  def policy_class # used by pundit to determine policy, because we have one policy for all subclasses
+    UserPolicy
+  end
+
+  def self.policy_class # used by pundit to determine policy, because we have one policy for all subclasses
+    UserPolicy
+  end
 
   def admin?
   	is_a? Admin
@@ -17,6 +28,11 @@ class User < ApplicationRecord
 
   def agent?
   	is_a? Agent
+  end
+
+  #---- Utils  
+  def to_s
+  	name
   end
 end
 

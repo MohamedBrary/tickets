@@ -11,8 +11,9 @@ class ApplicationPolicy
     user.admin?
   end
 
+  # will catch fishy ids, and not authorized records
   def show?
-    scope.where(:id => record.id).exists?
+    !record.is_a?(Class) && record.present? && scope.where(:id => record.id).exists?
   end
 
   def create?

@@ -95,7 +95,7 @@ class TicketsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_ticket
       # making sure that current user has access to the ticket
-      @ticket = policy_scope(Ticket).find(params[:id])
+      @ticket = policy_scope(Ticket).where(id: params[:id]).first
     end
 
     def authorize_ticket
@@ -106,7 +106,7 @@ class TicketsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def ticket_params
       # using pundit helper for authorized ticket attributes
-      params.require(:ticket).permit(policy(@ticket).permitted_attributes)
+      params.require(:ticket).permit(policy(Ticket).permitted_attributes)
       # params.require(:ticket).permit(:desc, :report, :customer_id, :agent_id, :status, :resolution_date)
     end
 end

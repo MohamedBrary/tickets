@@ -1,0 +1,23 @@
+class AddConfirmableToDevise < ActiveRecord::Migration[5.0]
+  # Note: You can't use change, as User.update_all will fail in the down migration
+  def up
+    add_column :users, :confirmation_token, :string
+    add_column :users, :confirmed_at, :datetime
+    add_column :users, :confirmation_sent_at, :datetime
+    add_column :users, :unconfirmed_email, :string # Only if using reconfirmable
+    
+    add_column :users, :changed_password, :boolean, default: true
+
+    add_index :users, :confirmation_token, unique: true
+    # User.reset_column_information # Need for some types of updates, but not for update_all.
+    # To avoid a short time window between running the migration and updating all existing
+    # users as confirmed, do the following
+    execute("UPDATE users SET confirmed_at = NOW()")
+    # All existing user accounts should be able to log in after this.
+    
+  end
+
+  def down
+    remove_columns :users, :confirmation_token, :confirmed_at, :confirmation_sent_at, :unconfirmed_email, :changed_password
+  end
+end

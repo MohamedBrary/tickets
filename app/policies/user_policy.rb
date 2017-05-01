@@ -17,7 +17,7 @@ class UserPolicy < ApplicationPolicy
 
   # admin can create an admin or an agent
   def create?
-    user.admin? && (record.agent? || record.admin?)
+    user.admin? #&& (record.agent? || record.admin?)
   end
 
   def destroy?
