@@ -15,9 +15,8 @@ class UserPolicy < ApplicationPolicy
     user.admin?
   end
 
-  # admin can create an admin or an agent
   def create?
-    user.admin? #&& (record.agent? || record.admin?)
+    user.admin?
   end
 
   def destroy?
@@ -25,6 +24,15 @@ class UserPolicy < ApplicationPolicy
   end
 
   def update?
-    user == record
+    user.admin? || user == record
+  end
+
+  def permitted_attributes
+    # only admin can change type
+    if user.admin?
+      [:name, :email, :password, :password_confirmation, :type]
+    else
+      [:name, :email, :password, :password_confirmation]
+    end
   end
 end

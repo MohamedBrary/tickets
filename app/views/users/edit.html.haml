@@ -7,4 +7,28 @@
     Show
   %h1 Editing user
 
-= render 'form'
+/ Naming the form explicitly, to handle STI
+= form_for @user, as: :user, html: { class: "form-horizontal", role: "form" } do |f|
+  -if @user.errors.any?
+    .alert.alert-danger.alert-dismissable{role: "alert"}
+      %button.close{type: "button", data: {dismiss: "alert"} }
+        %span{aria: {hidden: "true"} } &times;
+        %span.sr-only Close
+      %h4= "#{pluralize(@user.errors.count, "error")} prohibited this user from being saved:"
+
+      %ul
+        - @user.errors.full_messages.each do |msg|
+          %li= msg
+  .form-group
+    = f.label :name
+    = f.text_field :name, autofocus: true, class: 'form-control'
+  .form-group
+    = f.label :email
+    = f.email_field :email, class: 'form-control'  
+  .form-group
+    = f.label :type
+    = f.select :type, allowed_user_types, {}, class: 'form-control'
+  .form-group
+    .col-sm-offset-2.col-sm-10
+      = f.submit class: 'btn btn-primary'
+

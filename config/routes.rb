@@ -9,6 +9,11 @@ Rails.application.routes.draw do
     end
   end
 
+  # this order, allows "POST /user" to be processed by UsersController
+  post '/users/', to: 'users#create'
+  get '/users/:id/edit', to: 'users#edit'
+  put '/users/:id', to: 'users#update'
+  patch '/users/:id', to: 'users#update'
   devise_for :users, :controllers => {:registrations => "registrations"}
   resources :users
   

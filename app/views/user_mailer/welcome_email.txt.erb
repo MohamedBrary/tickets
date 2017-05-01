@@ -1,0 +1,10 @@
+Welcome to Tickets, <%= @resource.name %>
+===============================================
+ 
+You have a new account on Tickets system,
+your username is: <%= @resource.email %>.
+your password is: <%= @password %>.
+ 
+Please, confirm your account using this link and change your password after successful login: <%= confirmation_url(@resource, confirmation_token: @resource.confirmation_token, locale: I18n.locale) %>.
+ 
+Thanks for joining and have a great day!
