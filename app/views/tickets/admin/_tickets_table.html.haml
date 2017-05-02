@@ -2,25 +2,25 @@
   %table.table.table-striped.table-bordered.table-hover
     %thead
       %tr
-        %th Desc
-        %th Report
         %th Customer
-        %th Agent
-        %th Status
-        %th Resolution date
+        - if assigned
+          %th Agent        
+        - if resolved
+          %th Resolution date
         %th
         %th
         %th
 
     %tbody
-      - @tickets.each do |ticket|
+      - listed_tickets.each do |ticket|
         %tr
-          %td= ticket.desc
-          %td= ticket.report
           %td= ticket.customer
-          %td= ticket.agent
-          %td= ticket.status
-          %td= ticket.resolution_date
+          - if assigned
+            %td= ticket.agent
+          - if ticket.resolved?
+            %td= ticket.resolution_date
           %td= link_to 'Show', ticket
+          / Admin isn't allowed to edit tickets
           %td= link_to 'Edit', edit_ticket_path(ticket)
           %td= link_to 'Destroy', ticket, data: { confirm: 'Are you sure?' }, method: :delete
+

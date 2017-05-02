@@ -23,23 +23,7 @@
   .form-group
     = f.label :report, class: 'col-sm-2 control-label'
     .col-sm-10
-      = f.text_area :report, class: 'form-control'
-  .form-group
-    = f.label :customer, class: 'col-sm-2 control-label'
-    .col-sm-10
-      = f.text_field :customer, class: 'form-control'
-  .form-group
-    = f.label :agent, class: 'col-sm-2 control-label'
-    .col-sm-10
-      = f.text_field :agent, class: 'form-control'
-  .form-group
-    = f.label :status, class: 'col-sm-2 control-label'
-    .col-sm-10
-      = f.number_field :status, class: 'form-control'
-  .form-group
-    = f.label :resolution_date, class: 'col-sm-2 control-label'
-    .col-sm-10
-      = f.datetime_select :resolution_date, class: 'form-control'
+      = f.text_area :report, class: 'form-control'  
   .form-group
     .col-sm-offset-2.col-sm-10
       = f.submit class: 'btn btn-primary'

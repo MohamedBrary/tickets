@@ -23,9 +23,11 @@
         %i
           (#{t('.we_need_your_current_password_to_confirm_your_changes', default: 'we need your current password to confirm your changes')})
         = f.password_field :current_password, class: 'form-control'
-      .form-group
-        = f.label :type
-        = f.select :type, allowed_user_types, {}, class: 'form-control'
+      / check if the user has the right to change type
+      - if policy(resource).permitted_attributes.include? 'type'
+        .form-group
+          = f.label :type
+          = f.select :type, allowed_user_types, {}, class: 'form-control'
       = f.submit t('.update', default: 'Update'), class: 'btn btn-primary'
 %p
   = t('.unhappy', default: 'Unhappy')

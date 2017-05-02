@@ -6,12 +6,9 @@ class TicketsController < ApplicationController
   # GET /tickets.json
   def index
     # apply auth logic
-    @tickets = policy_scope(Ticket).includes(:customer, :agent)
-    @desc = "Tickets"
-
+    @tickets = policy_scope(Ticket).includes(:customer, :agent)    
     # gather tickets stats
     set_tickets_stats
-    
     # based on filter params if exists
     filter_tickets
   end
@@ -19,6 +16,7 @@ class TicketsController < ApplicationController
   # GET /tickets/1
   # GET /tickets/1.json
   def show
+    render "tickets/#{current_user_type}/show"
   end
 
   # GET /tickets/new
@@ -118,10 +116,11 @@ class TicketsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def ticket_params
       # using pundit helper for authorized ticket attributes
-      params.require(:ticket).permit(policy(Ticket).permitted_attributes)
+      params.require(:ticket).permit(policy(@ticket || Ticket).permitted_attributes)
       # params.require(:ticket).permit(:desc, :report, :customer_id, :agent_id, :status, :resolution_date)
     end
 
+    # TODO move to service
     def set_tickets_stats
       # gather stats
       @tickets_count = @tickets.count
@@ -133,7 +132,10 @@ class TicketsController < ApplicationController
       @quarter_tickets_count = @tickets.months_ago(3).count
     end
 
+    # TODO move to service    
     def filter_tickets
+      # making a readable description to user filter
+      @desc = "Tickets"
       # apply filter, if exists
       if params[:status].present?
         @tickets = @tickets.where(status: params[:status]) 

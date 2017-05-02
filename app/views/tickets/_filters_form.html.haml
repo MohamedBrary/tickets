@@ -1,0 +1,21 @@
+:css
+  .form-control-inline {width:auto;display:inline-block;}
+= form_tag '', :method => :get, class: "form-horizontal", role: "form", style: 'margin-left: 20px;' do
+  .form-group.form-control-inline
+    %select{name: 'status', class: 'form-control form-control-inline'}
+      %option{value: '', selected: params[:status].blank?}
+        ="All (#{@tickets_count})"
+      %option{value: 'pending', selected: params[:status]=='pending'}
+        = "Pending (#{@pending_tickets_count})"
+      %option{value: 'assigned', selected: params[:status]=='assigned'}
+        = "Assigned (#{@assigned_tickets_count})"
+      %option{value: 'resolved', selected: params[:status]=='resolved'}
+        = "Resolved (#{@resolved_tickets_count})"
+    %select{name: 'date', class: 'form-control form-control-inline'}
+      %option{value: '', selected: params[:status].blank?}
+        ="All Time (#{@tickets_count})"
+      %option{value: '1', selected: params[:date]=='1'}
+        = "1 Month Ago (#{@month_tickets_count})"
+      %option{value: '3', selected: params[:date]=='3'}
+        = "3 Months Ago (#{@quarter_tickets_count})"    
+  = submit_tag 'Filter', class: 'btn btn-primary form-control-inline', style: 'margin-left: 20px;'

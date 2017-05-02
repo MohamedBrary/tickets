@@ -18,6 +18,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # to be available in all controllers and views, like current_user
+  helper_method :current_user_type
+  def current_user_type
+    current_user.present? ? current_user.type.downcase : false
+  end
+
   private
 
   def user_not_authorized

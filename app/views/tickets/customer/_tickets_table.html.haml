@@ -1,0 +1,28 @@
+.table-responsive
+  %table.table.table-striped.table-bordered.table-hover
+    %thead
+      %tr
+        %th Description
+        - if assigned
+          %th Agent        
+        - if resolved
+          %th Resolution date
+        %th
+        / Customer can't edit ticket if it is already resolved
+        - if !resolved
+          %th
+        %th
+
+    %tbody
+      - listed_tickets.each do |ticket|
+        %tr
+          %td= ticket.desc
+          - if assigned
+            %td= ticket.agent
+          - if ticket.resolved?
+            %td= ticket.resolution_date
+          %td= link_to 'Show', ticket
+          - if !resolved
+            / Customer can't edit ticket if it is already resolved
+            %td= link_to 'Edit', edit_ticket_path(ticket)
+          %td= link_to 'Destroy', ticket, data: { confirm: 'Are you sure?' }, method: :delete

@@ -28,8 +28,8 @@ class UserPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    # only admin can change type
-    if user.admin?
+    # only admin can change type of non customer type
+    if user.admin? && !record.customer?
       [:name, :email, :password, :password_confirmation, :type]
     else
       [:name, :email, :password, :password_confirmation]

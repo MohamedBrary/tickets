@@ -27,8 +27,10 @@ class TicketPolicy < ApplicationPolicy
   	user.customer?
   end
 
+  # customer can edit his own ticket if it isn't already resolved
+  # TODO discuss with client this rule
   def update?
-  	user.customer?
+  	user.customer? && record.customer == user && !record.resolved?
   end
 
   # only admin or the customer who owns the ticket, can destroy it
@@ -51,7 +53,7 @@ class TicketPolicy < ApplicationPolicy
   # only ticket's agent can resolve the ticket, and only when it is assigned
   # TODO discuss with client this rule, and discuss creating supervisor role, and if more complicated ticket flow is needed
   def resolved?
-    user.agent? && record.agent_id == user.id && record.assigned?
+    user.agent? && record.assigned? && record.agent_id == user.id
   end
 
   def scope
@@ -59,8 +61,10 @@ class TicketPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
+    # customer can edit only the description of the ticket
     if user.customer?
       [:desc]
+    # agent can edit only the report of the ticket
     elsif user.agent?
       [:report]
     end

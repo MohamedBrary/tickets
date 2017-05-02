@@ -1,0 +1,30 @@
+.page-header
+  = link_to tickets_path, class: 'btn btn-default' do
+    %span.glyphicon.glyphicon-list-alt
+    Back
+  - if @ticket.pending?
+    = link_to assign_ticket_path(@ticket), method: :post, class: 'btn btn-primary' do
+      %span.glyphicon.glyphicon-flag
+      Assign To Myself
+  - if @ticket.assigned?
+    = link_to resolve_ticket_path(@ticket), method: :get, class: 'btn btn-primary' do
+      %span.glyphicon.glyphicon-ok
+      Resolve
+  %h1 Show ticket
+
+%dl.dl-horizontal
+  %dt Creation date:
+  %dd= @ticket.created_at
+  %dt Customer:
+  %dd= @ticket.customer
+  %dt Desc:
+  %dd= @ticket.desc
+  %dt Status:
+  %dd= @ticket.status
+  - if @ticket.pending?
+    %dt Agent:
+    %dd= @ticket.agent || "Not assigned yet"
+  %dt Report:
+  %dd= @ticket.report || "Not resolved yet"
+  %dt Resolution date:
+  %dd= @ticket.resolution_date || "Not resolved yet"

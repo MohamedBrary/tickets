@@ -1,27 +1,44 @@
+/ The collapsing effect using CSS only
+:css
+  .collapsable{ cursor: pointer;display: block;background: #cdf;}
+  .collapsable + input{display: none; /* hide the checkboxes */}
+  .collapsable + input + div{display:none;}
+  .collapsable + input:checked + div{display:block;}
+/ End of The collapsing effect using CSS only
+
 .page-header
   = link_to new_ticket_path, class: 'btn btn-primary' do
     %span.glyphicon.glyphicon-plus
     New Ticket
   %h1= "Listing #{@desc} (#{@tickets.count})"
 
-= form_tag '', :method => :get do
-  %select{name: 'status'}
-    %option{value: '', selected: params[:status].blank?}
-      ="All (#{@tickets_count})"
-    %option{value: 'pending', selected: params[:status]=='pending'}
-      = "Pending (#{@pending_tickets_count})"
-    %option{value: 'assigned', selected: params[:status]=='assigned'}
-      = "Assigned (#{@assigned_tickets_count})"
-    %option{value: 'resolved', selected: params[:status]=='resolved'}
-      = "Resolved (#{@resolved_tickets_count})"
-  %select{name: 'date'}
-    %option{value: '', selected: params[:status].blank?}
-      ="All Time (#{@tickets_count})"
-    %option{value: '1', selected: params[:date]=='1'}
-      = "1 Month Ago (#{@month_tickets_count})"
-    %option{value: '3', selected: params[:date]=='3'}
-      = "3 Months Ago (#{@quarter_tickets_count})"    
-  = submit_tag 'Filter'
-/ different rendering for each user type
-- @mode = current_user.type.downcase
-= render "tickets/#{@mode}/index"
+= render "filters_form"
+
+- if @tickets.count == 0
+  .panel.panel-default
+    / Default panel contents
+    .panel-heading= "Tickets (0)"
+    .panel-body
+      %p There are no available tickets to be listed here.
+- if @tickets.pending.count > 0
+  .panel.panel-default
+    %label.panel-heading.collapsable{:for => "_0"}
+      = "Pending Tickets (#{@tickets.pending.count}/#{@tickets.count})"
+    %input#_0{:name => "_0", :type => "checkbox"}/    
+    = render "tickets/#{current_user_type}/tickets_table", listed_tickets: @tickets.pending, resolved: false, assigned: false
+
+- if @tickets.assigned.count > 0
+  .panel.panel-default
+    / Default panel contents
+    %label.panel-heading.collapsable{:for => "_1"}
+      = "Assigned Tickets (#{@tickets.assigned.count}/#{@tickets.count})"
+    %input#_1{:name => "_1", :type => "checkbox"}/    
+    = render "tickets/#{current_user_type}/tickets_table", listed_tickets: @tickets.assigned, resolved: false, assigned: true
+
+- if @tickets.resolved.count > 0
+  .panel.panel-default
+    / Default panel contents
+    %label.panel-heading.collapsable{:for => "_2"}
+      = "Resolved Tickets (#{@tickets.resolved.count}/#{@tickets.count})"
+    %input#_2{:name => "_2", :type => "checkbox"}/
+    = render "tickets/#{current_user_type}/tickets_table", listed_tickets: @tickets.resolved, resolved: true, assigned: true
