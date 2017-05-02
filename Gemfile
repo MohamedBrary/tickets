@@ -40,6 +40,9 @@ gem 'bootstrap-generators', git: 'git://github.com/decioferreira/bootstrap-gener
 gem 'devise-bootstrap-views'
 gem "haml-rails", "~> 0.9"
 
+# For exporting PDF files
+gem 'wicked_pdf'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

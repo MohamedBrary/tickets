@@ -10,16 +10,13 @@
   = link_to new_ticket_path, class: 'btn btn-primary' do
     %span.glyphicon.glyphicon-plus
     New Ticket
+  = link_to month_report_tickets_path(:format => 'pdf'), class: 'btn btn-success' do
+    %span.glyphicon.glyphicon-list-alt
+    Last Month Report
   %h1= "Listing #{@desc} (#{@tickets.count})"
 
 = render "filters_form"
 
-- if @tickets.count == 0
-  .panel.panel-default
-    / Default panel contents
-    .panel-heading= "Tickets (0)"
-    .panel-body
-      %p There are no available tickets to be listed here.
 - if @tickets.pending.count > 0
   .panel.panel-default
     %label.panel-heading.collapsable{:for => "_0"}
@@ -42,3 +39,14 @@
       = "Resolved Tickets (#{@tickets.resolved.count}/#{@tickets.count})"
     %input#_2{:name => "_2", :type => "checkbox"}/
     = render "tickets/#{current_user_type}/tickets_table", listed_tickets: @tickets.resolved, resolved: true, assigned: true
+
+- if @tickets.count == 0
+  .panel.panel-default
+    / Default panel contents
+    .panel-heading= "Tickets (0)"
+    .panel-body
+      %p There are no available tickets to be listed here.
+- else      
+  = link_to tickets_path({format: 'pdf'}.merge(request.query_parameters.slice('status', 'date'))), class: 'btn btn-success' do
+    %span.glyphicon.glyphicon-list-alt
+    Export as PDF

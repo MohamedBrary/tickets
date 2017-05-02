@@ -21,6 +21,10 @@ class TicketPolicy < ApplicationPolicy
   	true
   end
 
+  def month_report?
+    index?
+  end
+
   # only customer can create tickets
   # TODO discuss with client this rule, not allowing Admin to create tickets, for the integerity of the system
   def create?

@@ -1,0 +1,17 @@
+.table-responsive
+  %table.table.table-striped.table-bordered.table-hover
+    %thead
+      %tr
+        %th Description
+        - if assigned
+          %th Agent        
+        - if resolved
+          %th Resolution date
+    %tbody
+      - listed_tickets.each do |ticket|
+        %tr
+          %td= ticket.desc
+          - if assigned
+            %td= ticket.agent
+          - if ticket.resolved?
+            %td= ticket.resolution_date          

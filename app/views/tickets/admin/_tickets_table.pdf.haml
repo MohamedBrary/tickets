@@ -1,0 +1,18 @@
+%table
+  %thead
+    %tr
+      %th Creation Date
+      %th Customer
+      - if assigned
+        %th Agent        
+      - if resolved
+        %th Resolution date        
+  %tbody
+    - listed_tickets.each do |ticket|
+      %tr
+        %td= ticket.created_at
+        %td= ticket.customer
+        - if assigned
+          %td= ticket.agent
+        - if ticket.resolved?
+          %td= ticket.resolution_date          

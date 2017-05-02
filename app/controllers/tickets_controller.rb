@@ -11,6 +11,19 @@ class TicketsController < ApplicationController
     set_tickets_stats
     # based on filter params if exists
     filter_tickets
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render pdf: "ticket_report"   # Excluding ".pdf" extension.
+      end
+    end
+  end
+
+  # GET /tickets/month_report
+  # GET /ticketsmonth_report/.pdf
+  # GET /tickets/month_report.json
+  def month_report
+    redirect_to tickets_path(status: 'resolved', date: '1', format: request.format.symbol)
   end
 
   # GET /tickets/1

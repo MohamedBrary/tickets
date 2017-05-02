@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :tickets do
     collection do
-      # get :export_as_pds
+      get :month_report
     end
     member do
       post :assign

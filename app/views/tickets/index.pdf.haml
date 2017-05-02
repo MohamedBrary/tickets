@@ -1,0 +1,57 @@
+:css
+  body {
+    background-color: #fff;
+    color: #333;
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    margin: 33px;
+  }
+
+  .page-header{
+    line-height: 28px;
+    color: green;
+  }
+  table {
+      border-collapse: collapse;
+      width: 100%;
+  }
+  
+  th, td {
+      text-align: left;
+      padding: 8px;
+  }
+  
+  tr:nth-child(even){background-color: #f2f2f2}
+  
+  th {
+      background-color: #4CAF50;
+      color: white;
+  }
+  tr {
+   page-break-inside: avoid;
+  }
+
+.page-header
+  %h1= "Listing #{@desc} (#{@tickets.count})"
+
+- if @tickets.count == 0
+  .panel.panel-default
+    / Default panel contents
+    .panel-heading= "Tickets (0)"
+    .panel-body
+      %p There are no available tickets to be listed here.
+- if @tickets.pending.count > 0
+  %h2
+    = "Pending Tickets (#{@tickets.pending.count}/#{@tickets.count})"
+  = render "tickets/#{current_user_type}/tickets_table", listed_tickets: @tickets.pending, resolved: false, assigned: false
+
+- if @tickets.assigned.count > 0
+  %h2
+    = "Assigned Tickets (#{@tickets.assigned.count}/#{@tickets.count})"
+  = render "tickets/#{current_user_type}/tickets_table", listed_tickets: @tickets.assigned, resolved: false, assigned: true
+
+- if @tickets.resolved.count > 0
+  %h2
+    = "Resolved Tickets (#{@tickets.resolved.count}/#{@tickets.count})"
+  = render "tickets/#{current_user_type}/tickets_table", listed_tickets: @tickets.resolved, resolved: true, assigned: true
