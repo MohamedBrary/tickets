@@ -62,7 +62,7 @@ if defined?(Faker)
 				  user.email   = "#{user.name.parameterize(separator: '.')}@tickets.com"
 				  user.password = user_password
 	      	user.password_confirmation = user_password
-			    user.created_at = 2.months.ago..Time.now # after all agents are created
+			    user.created_at = rand(2.months.ago..Time.now) # after all agents are created
 			  	user.confirmed_at = user.created_at
 		    end
 

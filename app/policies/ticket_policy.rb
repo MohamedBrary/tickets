@@ -45,7 +45,13 @@ class TicketPolicy < ApplicationPolicy
   # only ticket's agent can resolve the ticket, and only when it is assigned
   # TODO discuss with client this rule, and discuss creating supervisor role, and if more complicated ticket flow is needed
   def resolve?
-  	user.agent? && record.agent == user && record.assigned?
+  	resolved?
+  end
+
+  # only ticket's agent can resolve the ticket, and only when it is assigned
+  # TODO discuss with client this rule, and discuss creating supervisor role, and if more complicated ticket flow is needed
+  def resolved?
+    user.agent? && record.agent_id == user.id && record.assigned?
   end
 
   def scope
@@ -55,7 +61,7 @@ class TicketPolicy < ApplicationPolicy
   def permitted_attributes
     if user.customer?
       [:desc]
-    elsif user.agent
+    elsif user.agent?
       [:report]
     end
   end

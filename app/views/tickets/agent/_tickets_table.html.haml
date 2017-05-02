@@ -1,0 +1,25 @@
+.table-responsive
+  %table.table.table-striped.table-bordered.table-hover
+    %thead
+      %tr
+        %th Desc
+        %th Customer
+        - if resolved
+          %th Resolution date
+        %th
+        - unless resolved
+          %th
+
+    %tbody
+      - listed_tickets.each do |ticket|
+        %tr
+          %td= ticket.desc
+          %td= ticket.customer
+          - if ticket.resolved?
+            %td= ticket.resolution_date
+          %td= link_to 'Show', ticket
+          - if ticket.pending?
+            %td= link_to 'Assign To Myself', assign_ticket_path(ticket), method: :post
+          - if ticket.assigned?
+            %td= link_to 'Resolve', resolve_ticket_path(ticket)
+

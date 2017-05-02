@@ -15,12 +15,14 @@ class Ticket < ApplicationRecord
 
   def assign agent_id
   	self.agent_id = agent_id
-  	self.assigned!
+    self.status = 'assigned'
+  	self.save
   end
 
   def resolve report
   	self.report = report
   	self.resolution_date = DateTime.now
-  	self.resolved!
+  	self.status = 'resolved'
+    self.save
   end
 end

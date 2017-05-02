@@ -1,13 +1,16 @@
 .page-header
   = link_to tickets_path, class: 'btn btn-default' do
     %span.glyphicon.glyphicon-list-alt
-    Back
-  = link_to @ticket, class: 'btn btn-primary' do
-    %span.glyphicon.glyphicon-info-sign
-    Show
-  %h1 Editing ticket
+    Back  
+  %h1 Resolving ticket
 
-= form_for @ticket, html: { class: "form-horizontal", role: "form" } do |f|
+%dl.dl-horizontal
+  %dt Customer:
+  %dd= @ticket.customer
+  %dt Desc:
+  %dd= @ticket.desc  
+
+= form_for @ticket, url: {action: "resolved"}, html: { class: "form-horizontal", role: "form" } do |f|
   -if @ticket.errors.any?
     .alert.alert-danger.alert-dismissable{role: "alert"}
       %button.close{type: "button", data: {dismiss: "alert"} }
@@ -20,10 +23,10 @@
           %li= msg
 
   .form-group
-    = f.label :desc, class: 'col-sm-2 control-label'
+    = f.label :report, class: 'col-sm-2 control-label'
     .col-sm-10
-      = f.text_area :desc, class: 'form-control'  
+      = f.text_area :report, class: 'form-control'  
   .form-group
     .col-sm-offset-2.col-sm-10
-      = f.submit class: 'btn btn-primary'
+      = f.submit 'Resolve', class: 'btn btn-primary'
 

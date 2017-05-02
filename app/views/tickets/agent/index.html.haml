@@ -1,0 +1,25 @@
+.page-header
+  = link_to new_ticket_path, class: 'btn btn-primary' do
+    %span.glyphicon.glyphicon-plus
+    New Ticket
+  %h1 Listing Tickets
+
+.panel.panel-default
+  .panel-heading= "Pending Tickets #{@pending_tickets.count}/#{@tickets.count}"
+  .panel-body
+    %p These tickets are pending, please assign to yourself at your convenience
+  = render "tickets/#{@mode}/tickets_table", listed_tickets: @pending_tickets, resolved: false
+  
+.panel.panel-default
+  / Default panel contents
+  .panel-heading= "Assigned Tickets #{@assigned_tickets.count}/#{@tickets.count}"
+  .panel-body
+    %p These tasks are assigned to you, please progress with them
+  = render "tickets/#{@mode}/tickets_table", listed_tickets: @assigned_tickets, resolved: false
+  
+.panel.panel-default
+  / Default panel contents
+  .panel-heading= "Resolved Tickets #{@resolved_tickets.count}/#{@tickets.count}"
+  .panel-body
+    %p These tasks are already resolved
+  = render "tickets/#{@mode}/tickets_table", listed_tickets: @resolved_tickets, resolved: true

@@ -1,11 +1,18 @@
 class TicketsController < ApplicationController
-  before_action :set_ticket, only: [:show, :edit, :update, :destroy, :assign, :resolve]
+  before_action :set_ticket, only: [:show, :edit, :update, :destroy, :assign, :resolve, :resolved]
   before_action :authorize_ticket
 
   # GET /tickets
   # GET /tickets.json
   def index
-    @tickets = policy_scope(Ticket)
+    @tickets = policy_scope(Ticket).includes(:customer, :agent)
+    @pending_tickets = @tickets.pending
+    @assigned_tickets = @tickets.assigned
+    @resolved_tickets = @tickets.resolved
+
+    @mode = current_user.type.downcase
+
+    render "tickets/#{@mode}/index"
   end
 
   # GET /tickets/1
@@ -59,23 +66,27 @@ class TicketsController < ApplicationController
   def assign
     respond_to do |format|
       if @ticket.assign(current_user.id)
-        format.html { redirect_to @ticket, notice: "Ticket was successfully assigned to #{current_user.name} ." }
-        format.json { render :show, status: :ok, location: @ticket }
+        format.html { redirect_to resolve_ticket_path(@ticket), notice: "Ticket was successfully assigned to #{current_user.name} ." }
+        format.json { render :resolve, status: :ok, location: @ticket }
       else
-        format.html { render :edit }
+        format.html { render :show }
         format.json { render json: @ticket.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # POST /tickets/1/resolve
-  def resolve
+  # GET /tickets/1/resolve
+  def resolve    
+  end
+
+  # POST /tickets/1/resolved
+  def resolved
     respond_to do |format|
       if @ticket.resolve(ticket_params[:report])
         format.html { redirect_to @ticket, notice: "Ticket was successfully resolved by #{current_user.name} ." }
         format.json { render :show, status: :ok, location: @ticket }
       else
-        format.html { render :edit }
+        format.html { render :resolve }
         format.json { render json: @ticket.errors, status: :unprocessable_entity }
       end
     end

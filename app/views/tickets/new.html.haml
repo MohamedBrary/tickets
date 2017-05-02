@@ -4,4 +4,43 @@
     Back
   %h1 New ticket
 
-= render 'form'
+= form_for @ticket, html: { class: "form-horizontal", role: "form" } do |f|
+  -if @ticket.errors.any?
+    .alert.alert-danger.alert-dismissable{role: "alert"}
+      %button.close{type: "button", data: {dismiss: "alert"} }
+        %span{aria: {hidden: "true"} } &times;
+        %span.sr-only Close
+      %h4= "#{pluralize(@ticket.errors.count, "error")} prohibited this ticket from being saved:"
+
+      %ul
+        - @ticket.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label :desc, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_area :desc, class: 'form-control'
+  .form-group
+    = f.label :report, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_area :report, class: 'form-control'
+  .form-group
+    = f.label :customer, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_field :customer, class: 'form-control'
+  .form-group
+    = f.label :agent, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_field :agent, class: 'form-control'
+  .form-group
+    = f.label :status, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.number_field :status, class: 'form-control'
+  .form-group
+    = f.label :resolution_date, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.datetime_select :resolution_date, class: 'form-control'
+  .form-group
+    .col-sm-offset-2.col-sm-10
+      = f.submit class: 'btn btn-primary'
+

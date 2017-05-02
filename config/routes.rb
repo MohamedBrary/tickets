@@ -4,8 +4,9 @@ Rails.application.routes.draw do
       # get :export_as_pds
     end
     member do
-      get :assign
+      post :assign
       get :resolve
+      patch :resolved
     end
   end
 
