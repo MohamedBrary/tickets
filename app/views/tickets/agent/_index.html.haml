@@ -1,0 +1,22 @@
+- if @tickets.pending.count > 0
+  .panel.panel-default
+    .panel-heading= "Pending Tickets #{@tickets.pending.count}/#{@tickets.count}"
+    .panel-body
+      %p These tickets are pending, please assign to yourself at your convenience
+    = render "tickets/#{@mode}/tickets_table", listed_tickets: @tickets.pending, resolved: false
+
+- if @tickets.assigned.count > 0
+  .panel.panel-default
+    / Default panel contents
+    .panel-heading= "Assigned Tickets #{@tickets.assigned.count}/#{@tickets.count}"
+    .panel-body
+      %p These tasks are assigned to you, please progress with them
+    = render "tickets/#{@mode}/tickets_table", listed_tickets: @tickets.assigned, resolved: false
+  
+- if @tickets.resolved.count > 0
+  .panel.panel-default
+    / Default panel contents
+    .panel-heading= "Resolved Tickets #{@tickets.resolved.count}/#{@tickets.count}"
+    .panel-body
+      %p These tasks are already resolved
+    = render "tickets/#{@mode}/tickets_table", listed_tickets: @tickets.resolved, resolved: true

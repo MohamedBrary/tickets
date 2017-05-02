@@ -33,7 +33,7 @@ if defined?(Faker)
 			  user.email   = "#{user.name.parameterize(separator: '.')}@tickets.com"
 			  # http://stackoverflow.com/a/16682286/426845
 			  user.encrypted_password = User.new(:password => user_password).encrypted_password
-			  user.created_at = 3.months.ago..2.months.ago
+			  user.created_at = 6.months.ago..4.months.ago
 			  user.confirmed_at = user.created_at
 			  user.sign_in_count = 0
 			end # of creating agents
@@ -46,7 +46,7 @@ if defined?(Faker)
 			  user.name    = Faker::Name.unique.name
 			  user.email   = "#{user.name.parameterize(separator: '.')}@tickets.com"
 			  user.encrypted_password = User.new(:password => user_password).encrypted_password
-			  user.created_at = 2.months.ago..Time.now
+			  user.created_at = 4.months.ago..Time.now
 			  user.confirmed_at = user.created_at
 			  user.sign_in_count = 0
 			end # of creating customers
@@ -62,7 +62,7 @@ if defined?(Faker)
 				  user.email   = "#{user.name.parameterize(separator: '.')}@tickets.com"
 				  user.password = user_password
 	      	user.password_confirmation = user_password
-			    user.created_at = rand(2.months.ago..Time.now) # after all agents are created
+			    user.created_at = rand(4.months.ago..3.months.ago) # after all agents are created
 			  	user.confirmed_at = user.created_at
 		    end
 

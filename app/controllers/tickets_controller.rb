@@ -5,14 +5,15 @@ class TicketsController < ApplicationController
   # GET /tickets
   # GET /tickets.json
   def index
+    # apply auth logic
     @tickets = policy_scope(Ticket).includes(:customer, :agent)
-    @pending_tickets = @tickets.pending
-    @assigned_tickets = @tickets.assigned
-    @resolved_tickets = @tickets.resolved
+    @desc = "Tickets"
 
-    @mode = current_user.type.downcase
-
-    render "tickets/#{@mode}/index"
+    # gather tickets stats
+    set_tickets_stats
+    
+    # based on filter params if exists
+    filter_tickets
   end
 
   # GET /tickets/1
@@ -119,5 +120,28 @@ class TicketsController < ApplicationController
       # using pundit helper for authorized ticket attributes
       params.require(:ticket).permit(policy(Ticket).permitted_attributes)
       # params.require(:ticket).permit(:desc, :report, :customer_id, :agent_id, :status, :resolution_date)
+    end
+
+    def set_tickets_stats
+      # gather stats
+      @tickets_count = @tickets.count
+      @pending_tickets_count = @tickets.pending.count
+      @assigned_tickets_count = @tickets.assigned.count
+      @resolved_tickets_count = @tickets.resolved.count
+
+      @month_tickets_count = @tickets.months_ago(1).count
+      @quarter_tickets_count = @tickets.months_ago(3).count
+    end
+
+    def filter_tickets
+      # apply filter, if exists
+      if params[:status].present?
+        @tickets = @tickets.where(status: params[:status]) 
+        @desc = "#{params[:status].titleize} #{@desc}"  
+      end
+      if params[:date].present?
+        @tickets = @tickets.months_ago(params[:date].to_i) 
+        @desc = "Last #{params[:date]=='1' ? 'Month' : 'Quarter'} #{@desc}"
+      end
     end
 end

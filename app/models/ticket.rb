@@ -13,6 +13,8 @@ class Ticket < ApplicationRecord
   validates :report, presence: true, if: :resolved? # each ticket should have a report, if it is resolved
   validates :resolution_date, presence: true, if: :resolved? # each ticket should have a resolution_date, if it is resolved
 
+  scope :months_ago, ->(months_count) { where("created_at > ?", months_count.months.ago) }
+
   def assign agent_id
   	self.agent_id = agent_id
     self.status = 'assigned'
