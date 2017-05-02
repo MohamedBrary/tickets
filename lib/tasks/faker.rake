@@ -6,7 +6,7 @@ if defined?(Faker)
   task :clean_db => ['db:drop', 'db:create', 'db:migrate', 'db:seed']
   task :clean_data => ['clean_db', 'faker:full_data']
   
-  debug = true # to print out every step of the way
+  debug = false # to print out every step of the way
 
 
 	namespace :faker do
@@ -94,9 +94,19 @@ if defined?(Faker)
 
 	  def print_stats num_agents, num_customers, num_tickets_per_customer
 	  	num_tickets = num_customers*num_tickets_per_customer
+  		user_password = "123123123"
+
 	  	puts "Created #{num_agents} agents, #{num_customers} customers, and #{num_tickets} tickets.".colorize(:blue)
+	  	
 	  	tickets = Ticket.order("id desc").limit(num_tickets)
 	  	puts "Tickets: #{tickets.pending.count} pending, #{tickets.assigned.count} assigned, and #{tickets.resolved.count} resolved.".colorize(:blue)
+	  	
+	  	puts "Use these credentials to test drive the system:".colorize(:cyan)
+	  	puts "Customer '#{Customer.first.name}': '#{Customer.first.email}', password: '#{user_password}'".colorize(:cyan)
+	  	# agent with most tickets assigned to him
+	  	agent_id, tickets = Ticket.pluck(:agent_id).compact.each_with_object(Hash.new(0)){ |name, hash| hash[name] += 1}.max_by{|k,v| v}.first
+	  	agent = Agent.find agent_id
+	  	puts "Agent '#{agent.name}': '#{agent.email}', password: '#{user_password}'".colorize(:cyan)
 	  end # of print_stats
 
 	end # of namespace fake
