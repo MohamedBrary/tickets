@@ -17,15 +17,27 @@ class Ticket < ApplicationRecord
   scope :after_pending, -> {where("status > ?", Ticket.statuses['pending'])}
 
   def assign agent_id
+    unless pending?
+      errors.add(:base, 'Only pending tickets can be assigned') 
+      return false
+    end
+
   	self.agent_id = agent_id
     self.status = 'assigned'
+
   	self.save
   end
 
   def resolve report
+    unless assigned?
+      errors.add(:base, 'Only assigned tickets can be resolved')
+      return false
+    end
+
   	self.report = report
   	self.resolution_date = DateTime.now
   	self.status = 'resolved'
+
     self.save
   end
 end
