@@ -11,6 +11,7 @@ class TicketsController < ApplicationController
     set_tickets_stats
     # based on filter params if exists
     filter_tickets
+
     respond_to do |format|
       format.html
       format.pdf do
@@ -145,18 +146,11 @@ class TicketsController < ApplicationController
       @quarter_tickets_count = @tickets.months_ago(3).count
     end
 
-    # TODO move to service    
     def filter_tickets
+      filtering_service = FilterTicketsService.new status: params[:status], date: params[:date], tickets: @tickets
+
       # making a readable description to user filter
-      @desc = "Tickets"
-      # apply filter, if exists
-      if params[:status].present?
-        @tickets = @tickets.where(status: params[:status]) 
-        @desc = "#{params[:status].titleize} #{@desc}"  
-      end
-      if params[:date].present?
-        @tickets = @tickets.months_ago(params[:date].to_i) 
-        @desc = "Last #{params[:date]=='1' ? 'Month' : 'Quarter'} #{@desc}"
-      end
+      @desc = filtering_service.description
+      @tickets = filtering_service.filter      
     end
 end
