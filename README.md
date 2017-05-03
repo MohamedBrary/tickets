@@ -1,8 +1,10 @@
-#Tickets Readme Document
-#***********************
+# Tickets Readme Document
+# ***********************
 
 1. Prerequisites
+
 =================
+
 	1.1 Ruby 2.4.1
 	--------------
 	Usage of RVM is recommended:
@@ -20,14 +22,16 @@
 	- If you faced any problem, you can follow these instructions: 'https://askubuntu.com/a/489817/277986'
 	- Similar tutorials exist for different distros
 
-	1.4	WkHtmlToPdf
+	1.4 WkHtmlToPdf
 	---------------
 	- For exporting html as PDF, wkhtmltopdf engine was used, and need to be installed.
 	- Follow the simple instructions in this link to install it: 
 		'https://gist.github.com/brunogaspar/bd89079245923c04be6b0f92af431c10'
 
 2. Database Initialization
+
 ==========================
+
 	- Normal db initialization for RoR application, running bundle to install mysql2 gem
 	- Change 'db_user' and 'db_password' in 'config/secrets.yml', to match your settings
 	- Run 'rake db:seed' to create Admin user, instructions to login as Admin would be printed out
@@ -40,7 +44,9 @@
 		   database with new data
 
 3. Assumptions
+
 ==============
+
 	3.1 Tickets States
 	------------------
 	- Pending: the initial state, and requires only a Customer to create it, and a description
@@ -85,13 +91,17 @@
 	  Agent oriented, and which data is more important, and needed for later statistics and reports
 
 4. Future Work
+
 ==============
+
 	- Usage of frontend framework and testing frontend, instead just simple bootstrap haml views
 	- API and its test
 	- Complete design document
 
 5. Instructions
+
 ===============
+
 	- After prerequisites are met, there are no special instructions to run the Rails app
 	- 'rails s' to run the server
 	- 'rspec' to run the tests
