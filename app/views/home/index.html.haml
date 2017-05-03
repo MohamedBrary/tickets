@@ -1,21 +1,34 @@
-%h2 The system allows customers to be able to place support request and the support agents to process the requests.
-%h3 The system implements the following specifications:
-%ul 
-  %h4
-    For customers
-  %li 
-    A web portal to create support requests and to view status of previous requests.
-%ul 
-  %h4
-    For support agents
-  %li 
-    A web portal to find and process support requests.
-  %li 
-    One report, on requests data, with all tickets closed in the last one month; Should be PDF exportable.
-%ul 
-  %h4
-    Other functional requirements
-  %li 
-    Users should be able to authenticate normally
-  %li 
-    An admin user should be able to manage other users and any other system objects.
+%h3= "Hello #{user_name}!"
+%h4 The system allows customers to be able to place support request and the support agents to process the requests, covering the following specifications:
+.panel.panel-default
+  .panel-heading
+    Customers
+  .panel-body
+    %li 
+      Create support tickets 
+    %li 
+      View status of previous tickets
+.panel.panel-default
+  .panel-heading
+    Agents
+  .panel-body
+    %li 
+      Find and process support tickets 
+    %li 
+      Export last month closed tickets report as PDF
+.panel.panel-default
+  .panel-heading
+    Admins
+  .panel-body
+    %li 
+      Manage other users
+    %li 
+      Manage support tickets
+.panel.panel-default
+  .panel-heading
+    Authentication and Authorization
+  .panel-body
+    %li 
+      Users should be able to authenticate normally
+    %li 
+      Authorization logic should be applied on users and support tickets

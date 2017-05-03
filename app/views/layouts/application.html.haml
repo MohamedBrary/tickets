@@ -36,7 +36,7 @@
               %a{href: tickets_path} Tickets
             - if current_user
               %li
-                %a{href: user_path(current_user)} Profile
+                %a{href: user_path(current_user)}= "#{user_name} Profile"
           %ul.nav.navbar-nav.navbar-right
             = render 'devise/shared/login_links'
     .container
