@@ -23,6 +23,11 @@ RSpec.describe Ticket, type: :model do
 	    ticket.valid?
 	    expect(ticket.errors[:customer]).to include("can't be blank")
 	  end
+
+	  it 'should pass with description, pending status and a customer' do
+	    ticket = build(:ticket, :assigned, :customer_persisted, :agent_persisted)
+	    expect(ticket.valid?).to be true
+	  end
 	end # of Ticket.create
 
 	describe '.months_ago' do
@@ -60,7 +65,7 @@ RSpec.describe Ticket, type: :model do
 	  it 'should pass' do
 	    ticket = build(:ticket, :pending)
 	    agent = create(:agent) # have to create to pass presence validation with 'agent'
-	    expect(ticket.assign(agent.id)).to eq true
+	    expect(ticket.assign(agent.id)).to be true
 	  end
 	end # of Ticket#assign
 
@@ -79,7 +84,7 @@ RSpec.describe Ticket, type: :model do
 
 	  it 'should pass' do
 	    ticket = build(:ticket, :assigned)
-	    expect(ticket.resolve("report")).to eq true
+	    expect(ticket.resolve("report")).to be true
 	  end
 	end # of Ticket#resolve
 
