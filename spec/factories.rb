@@ -1,14 +1,17 @@
+require 'faker'
+
 FactoryGirl.define do
   
+  # mail generator using Faker  
   sequence :email do |n|
-    "test#{n}@tickets.com"
+    Faker::Internet.email
   end
 
   # user factory with different trait for each type
   factory :user do
     name "Test User"
     confirmed_at Time.now
-    email
+    email 
     password "please123"
   end # of user factory
 
@@ -17,6 +20,7 @@ FactoryGirl.define do
   factory :agent, parent: :user, class: 'Agent' do end
   factory :customer, parent: :user, class: 'Customer' do end
 
+  # ticket factory
   factory :ticket do
     desc   'Test ticket description'
 
@@ -35,16 +39,25 @@ FactoryGirl.define do
     trait :resolved do
       status 'resolved'
       report 'Test ticket report'
+      resolution_date Time.now
       association :customer, strategy: :build
       association :agent, strategy: :build
     end
 
     trait :customer_persisted do
-      association :customer#, email: generate(:email)
+      association :customer
     end
 
     trait :agent_persisted do
-      association :agent#, email: generate(:email)
+      association :agent
+    end
+
+    trait :complete do
+      status 'resolved'
+      report 'Test ticket report'
+      resolution_date Time.now
+      association :customer
+      association :agent
     end
     
   end # of ticket factory
