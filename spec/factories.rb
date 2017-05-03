@@ -1,10 +1,14 @@
 FactoryGirl.define do
   
+  sequence :email do |n|
+    "test#{n}@tickets.com"
+  end
+
   # user factory with different trait for each type
   factory :user do
     name "Test User"
     confirmed_at Time.now
-    email "test@example.com"
+    email
     password "please123"
   end # of user factory
 
@@ -33,6 +37,14 @@ FactoryGirl.define do
       report 'Test ticket report'
       association :customer, strategy: :build
       association :agent, strategy: :build
+    end
+
+    trait :customer_persisted do
+      association :customer#, email: generate(:email)
+    end
+
+    trait :agent_persisted do
+      association :agent#, email: generate(:email)
     end
     
   end # of ticket factory

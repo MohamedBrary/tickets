@@ -4,7 +4,6 @@ class Ticket < ApplicationRecord
 
   # explicitly mapping the status enum, to make sure that the default status is always 'pending
   enum status: { pending: 0, assigned: 1, resolved: 2 }
-
   
   validates :desc, presence: true
   validates :status, presence: true

@@ -25,6 +25,25 @@ RSpec.describe Ticket, type: :model do
 	  end
 	end # of Ticket.create
 
+	describe '.months_ago' do
+	  it 'should return tickets created within last month' do
+	  	before = Ticket.months_ago(1).count
+	    ticket = create(:ticket, :assigned, :customer_persisted, :agent_persisted)
+	  	after = Ticket.months_ago(1).count
+
+	    expect(after-before).to eq 1
+	  end
+
+	  it 'should return tickets created within last month' do
+	  	before = Ticket.months_ago(1).count
+	    ticket = create(:ticket, :assigned, :customer_persisted, :agent_persisted)
+	    ticket.update_attribute :created_at, 2.months.ago
+	  	after = Ticket.months_ago(1).count
+
+	    expect(after-before).to eq 0
+	  end
+	end # of Ticket.months_ago
+
 	describe '#assign' do
 	  it 'should fail if not pending' do
 	    ticket = build(:ticket, :assigned)
